@@ -1,0 +1,117 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#region-picker {
+	padding: 0.5em;
+}
+
+#region-search {
+	display: flex;
+	justify-items: space-between;
+}
+
+.region-search-wrap {
+	flex-grow: 2;
+	display: flex;
+	flex-direction: column;
+}
+
+#region-search-input {
+	display: block;
+	padding: 1rem;
+	flex-grow: 1;
+	font-size: 1rem;
+	border-bottom: 0;
+}
+
+.detect-button-wrap {
+	flex-grow: 1;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 0 0.5rem;
+}
+
+button {
+	display: block;
+	margin: auto;
+	padding: 1rem;
+	background: #383;
+	color: white;
+	border: 0;
+	border-radius: 1rem;
+	font-size: 1rem;
+}
+
+button:disabled {
+	background: #ddd;
+	color: #888;
+}
+
+button:hover:not(:disabled) {
+	background: #161;
+}
+
+.region-results-title {
+	margin: 0.5rem 0 0;
+}
+
+.region-results-list {
+	margin: 0 0 1rem 0;
+	padding: 0;
+	list-style: none;
+}
+
+.region-result {
+	padding: 0;
+	margin: 0;
+	border-top: 1px solid black;
+}
+
+.region-result .region-result-button {
+	padding: 1rem;
+	margin: 0;
+	border: 0;
+	border-radius: 0;
+	width: 100%;
+	text-align: left;
+	background: #eee;
+	color: black;
+	font-size: 1rem;
+}
+
+.region-result:nth-child(even) .region-result-button {
+	background: #ddd;
+}
+
+.region-result .region-result-button:hover {
+	background: #aaa;
+}
+
+.region-result .region-result-button.selected {
+	background: #383;
+	color: white;
+	font-weight: bold;
+}
+
+.region-result .region-result-button.selected:hover {
+	background: #161;
+}
+
+.bird-gen-button-wrap {
+	margin: 1rem auto;
+}
+
+#bird-message {
+	margin: 2rem;
+	text-align: center;
+	font-size: 2rem;
+}
+
+#ebird-frame {
+	width: 100vw;
+	height: 100vh;
+	border: 0;
+}

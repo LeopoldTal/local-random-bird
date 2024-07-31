@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Random bird from your region</title>
+	<script src="./bird.js"></script>
+	<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+	<noscript>
+		<p>Enable Javascript to use this bird generator, or get <a href="https://ebird.org/species/surprise-me">a random
+				bird from anywhere in the world</a>.</p>
+	</noscript>
+	<div id="region-picker">
+		<div id="region-search">
+			<div class="region-search-wrap">
+				<label for="region-search-input">Choose your region:</label>
+				<input type="text" id="region-search-input" placeholder="Try a city or suburb">
+			</div>
+			<div class="detect-button-wrap">
+				<button type="button" id="detect-button">Detect</button>
+				<div id="detect-message"></div>
+			</div>
+		</div>
+		<div id="region-results">Loading region list…</div>
+	</div>
+	<div class="bird-gen-button-wrap">
+		<button type="button" id="bird-gen-button" disabled>Show my bird!</button>
+	</div>
+	<div id="bird-display"></div>
+</body>
+
+</html>
