@@ -252,7 +252,7 @@ const showBird = () => {
 
 	const iframe = document.createElement('iframe');
 	iframe.id = 'ebird-frame';
-	iframe.src = `https://ebird.org/species/${birdId}`;
+	iframe.src = `https://ebird.org/species/${birdId}/${window.selectedRegionId}`;
 	display.appendChild(iframe);
 
 	message.scrollIntoView();
