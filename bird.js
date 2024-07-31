@@ -46,7 +46,8 @@ const getMatchingRegions = (query) => {
 	return { nearby: nearbyMatchRegions, all: otherRegions };
 };
 
-const createRegionResult = ({ regionId, name }) => {
+const createRegionResult = (region) => {
+	const { regionId, name } = region;
 	const result = document.createElement('li');
 	result.className = 'region-result';
 
@@ -56,7 +57,10 @@ const createRegionResult = ({ regionId, name }) => {
 	resultButton.className = `region-result-button ${isSelected ? 'selected' : 'unselected'}`;
 	resultButton.innerText = `${name}${isSelected ? ' ✔️' : ''}`;
 
-	const onClick = () => { selectRegion(regionId, name); };
+	const onClick = () => {
+		selectRegion(regionId, name);
+		zoomToRegion(region);
+	};
 	resultButton.addEventListener('click', onClick);
 
 	result.appendChild(resultButton);
@@ -156,6 +160,16 @@ const getNearbyRegions = ({ latitude, longitude, accuracy }) => {
 	return nearbyRegions;
 };
 
+const setRegionFromCoords = (coords) => {
+	console.log(`Latitude: ${coords.latitude}\nLongitude: ${coords.longitude}\nAccuracy: ${coords.accuracy}\n`);
+	window.nearbyRegions = getNearbyRegions(coords);
+	const detectedRegion = window.nearbyRegions[0] || null;
+	if (detectedRegion) {
+		selectRegion(detectedRegion.regionId, detectedRegion.name);
+	}
+	return detectedRegion;
+};
+
 const locatePosition = () => {
 	const output = document.getElementById('detect-message');
 	output.textContent = 'Looking for your region…';
@@ -167,11 +181,9 @@ const locatePosition = () => {
 
 	navigator.geolocation.getCurrentPosition(
 		({ coords }) => {
-			console.log(`Latitude: ${coords.latitude}\nLongitude: ${coords.longitude}\nAccuracy: ${coords.accuracy}\n`);
-			window.nearbyRegions = getNearbyRegions(coords);
-			const detectedRegion = window.nearbyRegions[0];
+			const detectedRegion = setRegionFromCoords(coords);
 			if (detectedRegion) {
-				selectRegion(detectedRegion.regionId, detectedRegion.name);
+				zoomToRegion(detectedRegion);
 				output.textContent = '';
 			} else {
 				output.textContent = `Couldn't detect your region.`;
@@ -182,6 +194,20 @@ const locatePosition = () => {
 			console.error(err);
 		},
 	);
+};
+
+/// Map
+
+const zoomToRegion = ({ minX, maxX, minY, maxY }) => {
+	if (!window.positionMap) {
+		return;
+	}
+	window.positionMap.fitBounds([[minX, minY], [maxX, maxY]]);
+};
+
+const setPositionOnMap = ({ lngLat: { lat, lng } }) => {
+	const coords = { latitude: lat, longitude: lng, accuracy: 10 };
+	setRegionFromCoords(coords);
 };
 
 /// Load birds in chosen region
@@ -234,11 +260,25 @@ const showBird = () => {
 
 /// Setup on page load
 
+const setupMap = () => {
+	mapboxgl.accessToken = 'pk.eyJ1IjoibGVvdGFsIiwiYSI6ImNsejlyNWNiNzA2emsya3BsazV1eGs3Zm4ifQ.pnlJlI1xkXoIFntVCNmFrA';
+	window.positionMap = new mapboxgl.Map({
+		container: 'position-map', // container ID
+		center: [0, 0], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+		zoom: 1, // starting zoom
+	});
+	window.positionMap.on('load', () => { window.positionMap.resize(); });
+	window.positionMap.on('click', setPositionOnMap);
+	window.addEventListener('resize', () => { window.positionMap.resize(); });
+};
+
 const init = () => {
 	document.getElementById('detect-button').addEventListener('click', locatePosition);
 	document.getElementById('region-search-input').addEventListener('input', showRegionResults);
 	document.getElementById('bird-gen-button').addEventListener('click', showBird);
 
+	window.allRegions = null;
+	window.positionMap = null;
 	window.nearbyRegions = [];
 	window.selectedRegionId = null;
 	window.birdsInRegion = [];
@@ -252,6 +292,8 @@ const init = () => {
 			showRegionResults();
 			locatePosition();
 		});
+
+	setupMap();
 };
 
 document.addEventListener('DOMContentLoaded', init);

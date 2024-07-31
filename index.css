@@ -54,6 +54,26 @@ button:hover:not(:disabled) {
 	background: #161;
 }
 
+#position-map {
+	width: 100%;
+	height: 50vh;
+}
+
+@media screen and (min-width: 1000px) {
+	#region-selectors {
+		display: flex;
+	}
+
+	.map-wrap {
+		flex: 1 0 0;
+	}
+
+	#region-results {
+		margin: 0 0 0 0.5rem;
+		flex: 1 1 0;
+	}
+}
+
 .region-results-title {
 	margin: 0.5rem 0 0;
 }

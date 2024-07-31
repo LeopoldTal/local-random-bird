@@ -5,7 +5,9 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Random bird from your region</title>
+	<script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
 	<script src="./bird.js"></script>
+	<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css">
 	<link rel="stylesheet" href="index.css">
 </head>
 
@@ -25,7 +27,13 @@
 				<div id="detect-message"></div>
 			</div>
 		</div>
-		<div id="region-results">Loading region list…</div>
+		<div id="region-selectors">
+			<div class="map-wrap">
+				<label>Or pick on the map:</label>
+				<div id="position-map"></div>
+			</div>
+			<div id="region-results">Loading region list…</div>
+		</div>
 	</div>
 	<div class="bird-gen-button-wrap">
 		<button type="button" id="bird-gen-button" disabled>Show my bird!</button>
