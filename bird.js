@@ -234,26 +234,30 @@ const choice = (l) => l[Math.round(l.length * Math.random())];
 
 const clearBird = () => {
 	const display = document.getElementById('bird-display');
-	display.innerHTML = '';
+	display.style.display = 'none';
+
+	const message = document.getElementById('bird-message');
+	message.innerHTML = '';
+
+	const iframe = document.getElementById('ebird-frame');
+	iframe.src = 'https://ebird.org/';
 };
 
 const showBird = () => {
 	clearBird();
-	const display = document.getElementById('bird-display');
 	if (window.birdsInRegion.length === 0) {
 		return;
 	}
 	const { birdId, commonName, sciName } = choice(window.birdsInRegion);
 
-	const message = document.createElement('p');
-	message.id = 'bird-message';
-	message.innerHTML = `Your random bird is the <strong>${commonName}</strong> (<i>${sciName}</i>)!`;
-	display.appendChild(message);
+	const display = document.getElementById('bird-display');
+	display.style.display = 'block';
 
-	const iframe = document.createElement('iframe');
-	iframe.id = 'ebird-frame';
+	const message = document.getElementById('bird-message');
+	message.innerHTML = `Your random bird is the <strong>${commonName}</strong> (<i>${sciName}</i>)!`;
+
+	const iframe = document.getElementById('ebird-frame');
 	iframe.src = `https://ebird.org/species/${birdId}/${window.selectedRegionId}`;
-	display.appendChild(iframe);
 
 	message.scrollIntoView();
 };
